@@ -1,21 +1,31 @@
 import os
-from skimage import measure
-import numpy as np
 
-from shapely.geometry import Polygon
-from .detectron2.engine import DefaultPredictor
-from .detectron2.config import get_cfg
+import numpy as np
 from PIL import Image
-import os
+from shapely.geometry import Polygon
+from skimage import measure
+
+from .detectron2.config import get_cfg
+from .detectron2.engine import DefaultPredictor
+
 
 def test():
-    test_model = CellFinder("C:/Users/nruff/Documents/Vine-Seg_Stephan/vineseg/experiments/mask_rcnn_101/mask_rcnn_r101_config.yaml",
-                            "C:/Users/nruff/Documents/Vine-Seg_Stephan/vineseg/experiments/mask_rcnn_101/mask_rcnn_R_101_FPN_3x.pth")
+    test_model = CellFinder(
+        "C:/Users/nruff/Documents/Vine-Seg_Stephan/vineseg/experiments/mask_rcnn_101/mask_rcnn_r101_config.yaml",
+        "C:/Users/nruff/Documents/Vine-Seg_Stephan/vineseg/experiments/mask_rcnn_101/mask_rcnn_R_101_FPN_3x.pth",
+    )
 
-    test_model.return_vineseg(img=np.array(Image.open("C:/Users/nruff/Documents/Vine-Seg_Stephan/vineseg/data/AVG_190122_Spon_10-23-27_moco.png")),
-                              min_size=1, max_size=1000, threshold=30)
+    test_model.return_vineseg(
+        img=np.array(
+            Image.open("C:/Users/nruff/Documents/Vine-Seg_Stephan/vineseg/data/AVG_190122_Spon_10-23-27_moco.png")
+        ),
+        min_size=1,
+        max_size=1000,
+        threshold=30,
+    )
 
-def extract_coordinates_from_mask(mask:np.ndarray)->list:
+
+def extract_coordinates_from_mask(mask: np.ndarray) -> list:
     """Function to extract coordinates from a binary mask and calculate the area.
 
     Args:
@@ -38,7 +48,7 @@ def extract_coordinates_from_mask(mask:np.ndarray)->list:
     # Create a Shapely Polygon from the vertices
     polygon = Polygon(polygon_vertices)
     # Simplify the polygon using the Ramer-Douglas-Peucker algorithm
-    tolerance = 0.0  
+    tolerance = 0.0
     simplified_polygon = polygon.simplify(tolerance)
     area = simplified_polygon.area
     # Get the coordinates of the simplified polygon
@@ -50,11 +60,14 @@ class CellFinder:
     """
     Class to find cells using the Detectron2 model
     """
-    def __init__(self,
-                 config_file:str,
-                 model_weights: str,
-                 detection_threshold: float = 0.5,
-                 cpu_mode: bool = False):
+
+    def __init__(
+        self,
+        config_file: str,
+        model_weights: str,
+        detection_threshold: float = 0.5,
+        cpu_mode: bool = False,
+    ):
         """
         Args:
             config_file (str): path to config file for detectron2
@@ -72,11 +85,11 @@ class CellFinder:
             self.cfg.merge_from_file(config_file)
         else:
             print(config_file)
-            raise FileExistsError('Missing config file. Path provided {model_checkpoint_url}')
+            raise FileExistsError("Missing config file. Path provided {model_checkpoint_url}")
         if os.path.exists(model_weights):
-            self.cfg.MODEL.WEIGHTS =  model_weights
+            self.cfg.MODEL.WEIGHTS = model_weights
         else:
-            raise FileExistsError(f'Missing model weights. Path provided {model_weights}')
+            raise FileExistsError(f"Missing model weights. Path provided {model_weights}")
         self.cpu_mode = cpu_mode
         self.predictor = None
 
@@ -91,7 +104,7 @@ class CellFinder:
             self.detection_threshold = threshold
             self.cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = threshold
             self.predictor = DefaultPredictor(self.cfg)
-   
+
     def return_vineseg(self, img: np.ndarray, min_size: int, max_size: int, threshold: float) -> list:
         """_summary_
 
@@ -102,7 +115,7 @@ class CellFinder:
             threshold (float): threshold for the prediction score, if below score it will not be returned.
 
         Returns:
-            list[dict]: returns a list with the predictions. Each prediction consists of a 
+            list[dict]: returns a list with the predictions. Each prediction consists of a
                         label (neuron, neuron_too_small, neuron_too_big), score that is the
                         prediction score, and points that are the coordinates of the mask [[x1,y1],...].
         """
@@ -113,15 +126,13 @@ class CellFinder:
         outputs = outputs["instances"].to("cpu").get_fields()
         # label: neuron, neuron_to_big, neuron_to_small
         vineseg_list = []
-        for mask,score in zip(outputs['pred_masks'],outputs['scores']):
-            m,a = extract_coordinates_from_mask(np.array(mask))
+        for mask, score in zip(outputs["pred_masks"], outputs["scores"]):
+            m, a = extract_coordinates_from_mask(np.array(mask))
             if a < min_size:
                 label = "neuron_too_small"
             elif a > max_size:
                 label = "neuron_too_big"
             else:
                 label = "neuron"
-            vineseg_list.append({'label':label,
-                                'score': float(score),
-                                'points':m})
+            vineseg_list.append({"label": label, "score": float(score), "points": m})
         return vineseg_list

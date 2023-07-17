@@ -1,8 +1,8 @@
-import os
 import json
-import numpy as np
-import cv2
+import os
 
+import cv2
+import numpy as np
 from shapely.geometry import Polygon
 from skimage import measure
 
@@ -136,5 +136,5 @@ def generate_coco_dict(input_path: str, output_path: str, img_shape: tuple):
         coco_dict["images"].append(coco_image_entry)
 
     coco_dict["annotations"] += annos
-    with open(os.path.join(output_path, 'neurofinder_coco.json'), 'w') as j:
+    with open(os.path.join(output_path, "neurofinder_coco.json"), "w") as j:
         json.dump(coco_dict, j)
