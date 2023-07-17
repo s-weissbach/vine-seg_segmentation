@@ -1,0 +1,41 @@
+{ "path loading model": null 
+, "comments": "Can be None if we have no pretrained model "
+, "paths training image folder": []
+, "comments": "structure like [folder1, folder2, ...]. Needs .png format with naming like Img_190130_Spon_12-35-39_moco.png"
+, "paths training masks folder":  []
+, "comments": "structure like [folder1, folder2, ...]. Needs .png format with naming like Seg_190130_Spon_12-35-39_moco.png"
+, "paths val image folder":  []
+, "paths val masks folder":  []
+, "validation intervall": 10                          
+, "comments": "structure like [folder1, folder2, ...]. Needs .png format with naming like Img_190130_Spon_12-35-39_moco.png"
+, "ROI training": 128
+, "ROI validation": 64
+, "Zoom factor": 1
+, "Caching factor": 0.9
+, "augmentation probability": 0.5
+, "preprocessing steps": ["ScaleIntensity"]
+, "augmentation steps": [ "SpatialCrop"
+                        , "Rotate"
+                        , "Flip"
+                        , "Zoom"
+                        , "ElasticDeformation"
+                        , "AffineTransformation"
+                        ]
+, "postprocessing": [ {"Activation": "Sigmoid" }
+                    , {"Threshold":  0.9}
+                    ]
+, "model type": "U-Net big"
+, "number input channel": 2 
+, "channel types input": ["clahe", "nl_means"]
+, "number output channel": 1
+, "channel types output": ["identity"] 
+, "optimizer": "Adam"
+, "loss function": "Dice loss"
+, "metrics": ["Dice Metric"]
+, "epochs": 3200
+, "batch size": 4
+, "learning rate": 0.01
+, "weight decay": 1e-5
+, "path save model": ""
+, "logging training results": ""                            
+}

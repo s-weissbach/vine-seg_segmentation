@@ -1,0 +1,12 @@
+{ "path_loading_weights_and_parameters": ""
+, "paths_image_folder": []   
+, "comments":   "structure like [folder1, folder2, ...]. Needs .png format with naming like Img_190130_Spon_12-35-39_moco.png"
+, "paths_masks_folder":  [] 
+, "comments":  "structure like [folder1, folder2, ...]. Needs .png format with naming like Seg_190130_Spon_12-35-39_moco.png.If no masks available insert []"
+, "path_save_predictions": "/home/webern/vineseg/prediction_finetuning_allen/"
+, "comments": "Will save polygons as image and in Labelme compatible format"
+, "maximal_area_neuron_in_pixels": 700
+, "minimal_area_neuron_in_pixels": 25
+, "Zoom factor": 1
+, "Caching factor": 1
+}
