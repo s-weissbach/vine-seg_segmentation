@@ -134,7 +134,6 @@ def generate_coco_dict(input_path: str, output_path: str, img_shape: tuple):
             annos.append(anno_entry)
             anno_id += 1
         coco_dict["images"].append(coco_image_entry)
-
-    coco_dict["annotations"] += annos
+        coco_dict["annotations"] += annos
     with open(os.path.join(output_path, "neurofinder_coco.json"), "w") as j:
         json.dump(coco_dict, j)
