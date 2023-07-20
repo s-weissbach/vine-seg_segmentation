@@ -4,6 +4,6 @@
 # install dependencies from requirements.txt
 pip install -r requirements.txt
 
-# install detectron2 from source
-pip install 'git+https://github.com/facebookresearch/detectron2.git'
+# setup pre-commit hook
+pre-commit install
 ```
