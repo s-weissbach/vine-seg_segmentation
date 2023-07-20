@@ -160,7 +160,12 @@ cython_debug/
 #.idea/
 
 # training data
-data/
+data/*
+!data/example/
 
 # models
 output/
+*.pt
+
+# yolov8
+runs/
