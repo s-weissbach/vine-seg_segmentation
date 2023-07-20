@@ -1,0 +1,7 @@
+path: data/examples
+train: yolo/train/images
+val: yolo/val/images
+test: yolo/test/images
+
+nc: 1
+names: ['cell']

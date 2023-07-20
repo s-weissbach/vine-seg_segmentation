@@ -1,0 +1,13 @@
+{ 
+    "info": {
+        "description": "",
+        "url": "",
+        "version": "1.0",
+        "year": 2023,
+        "contributor": "",
+        "date_created": "2023-03-24",
+    },
+    "images": [],
+    "annotations": [],
+    "categories": [{"id": 1, "name": "cell", "supercategory": "soma"}],
+}
