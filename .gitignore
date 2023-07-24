@@ -164,8 +164,7 @@ data/*
 !data/example/
 
 # models
-output/
-*.pt
+/*.pt
 
 # yolov8
 runs/

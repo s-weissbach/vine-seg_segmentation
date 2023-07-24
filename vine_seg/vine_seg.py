@@ -1,5 +1,3 @@
-import os
-
 from ultralytics import YOLO
 
 
@@ -8,7 +6,6 @@ class ViNeSeg:
         self,
         weights_path: str,
     ):
-        assert os.path.exists(weights_path), f"Path to weights does not exist. Path given: {weights_path}"
         self.model = YOLO(weights_path)
 
     # https://docs.ultralytics.com/modes/train/
