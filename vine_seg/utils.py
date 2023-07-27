@@ -48,7 +48,7 @@ def get_vineseg_list(predictions, min_size=1, max_size=1000, conf_threshold=0.5)
                 {
                     "img_path": path,
                     "label": label,
-                    "score": score.cpu().numpy(),
+                    "score": score.item(),
                     "points": points,
                 }
             )
