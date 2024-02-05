@@ -43,7 +43,13 @@ def get_vineseg_list(predictions, min_size=1, max_size=1000, conf_threshold=0.5)
             coords, area = parse_mask_to_vineseg(mask)
             score = scores[idx]
             points = np.array(mask.xy).squeeze()
-            label = "neuron_too_small" if area < min_size else "neuron_too_big" if area > max_size else "neuron"
+            label = (
+                "neuron_too_small"
+                if area < min_size
+                else "neuron_too_big"
+                if area > max_size
+                else "neuron"
+            )
             result.append(
                 {
                     "img_path": path,
