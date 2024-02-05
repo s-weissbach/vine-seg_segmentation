@@ -111,7 +111,7 @@ To train your custom VineSeg model, follow these steps using the provided Jupyte
        model = YOLO('yolov8s-seg.pt')
        ```
      
-     - Note, there are YOLO models in different sizes. The larger the model, the more computational resources and training data is required. You can load these by sustituting the `s` after the 8 bei (`xs`, `m`, `l`, or `xl`)
+     - Note, there are YOLO models in different sizes. The larger the model, the more computational resources and training data is required. You can load these by sustituting the `s` after the 8 bei (`xs`, `m`, `l`, or `xl`). Refer to [YOLO](https://github.com/ultralytics/ultralytics/tree/main) for more information.
    
    - A pre-trained model from Vine-Seg, all stored in the folder `models`. 
      
